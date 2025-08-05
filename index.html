@@ -3,6 +3,40 @@
 <head>
   <title>Welcome to Hero Training</title>
 </head>
+  <h2>Contact Us</h2>
+<form id="contact-form">
+  <label for="name">Name:</label><br />
+  <input type="text" id="name" name="name" required /><br />
+
+  <label for="email">Email:</label><br />
+  <input type="email" id="email" name="email" required /><br />
+
+  <label for="message">Message:</label><br />
+  <textarea id="message" name="message" rows="5" required></textarea><br />
+
+  <button type="submit">Send</button>
+</form>
+
+<p id="response"></p>
+
+<script>
+  document.getElementById("contact-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const res = await fetch(https://contactform-handler-g3e6b9a8cfgxg8et.eastus2-01.azurewebsites.net/api/SubmitContactForm?, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: document.getElementById("name").value,
+        email: document.getElementById("email").value,
+        message: document.getElementById("message").value,
+      }),
+    });
+
+    const result = await res.text();
+    document.getElementById("response").innerText = result;
+  });
+</script>
 <body>
   <h1>Welcome to Our Member Portal!</h1>
   
