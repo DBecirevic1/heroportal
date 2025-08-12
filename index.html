@@ -11,25 +11,32 @@
   <button type="submit">Send</button>
 </form>
 
+<p id="status"></p>
+
 <script>
-document.getElementById("contactForm").addEventListener("submit", async function(e) {
+  document.getElementById("contactForm").addEventListener("submit", async function(e) {
     e.preventDefault();
 
     const formData = {
-        name: e.target.name.value,
-        email: e.target.email.value,
-        message: e.target.message.value
+      name: e.target.name.value,
+      email: e.target.email.value,
+      message: e.target.message.value
     };
 
-    const response = await fetch("https://<your-function-url>", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData)
+    const response = await fetch("https://contactform-handler-g3e6b9a8cfgxg8et.eastus2-01.azurewebsites.net/api/SendEmail?", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData)
     });
 
-    const result = await response.text();
-    alert(result);
-});
+    const status = document.getElementById("status");
+    if (response.ok) {
+      status.textContent = "Message sent!";
+      e.target.reset();
+    } else {
+      status.textContent = "Error sending message.";
+    }
+  });
 </script>
 <body>
   <h1>Welcome to Our Member Portal!</h1>
